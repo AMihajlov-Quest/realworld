@@ -10,13 +10,12 @@ describe("WorkersList.vue", () => {
   const localVue = createLocalVue();
   localVue.use(Vuex);
   let vuetify: Vuetify;
-
   const mutations = {
     setStatus: jest.fn(),
   };
 
   const store = new Vuex.Store({ mutations });
-  store.dispatch = jest.fn();
+  store.dispatch = jest.fn().mockResolvedValue(true);
 
   beforeEach(() => {
     vuetify = new Vuetify();
@@ -36,20 +35,28 @@ describe("WorkersList.vue", () => {
     wrapper.destroy();
   });
 
+  it("have scrollable view", () => {
+    const wrapper = factory(WorkersList, {});
+    expect(wrapper.find('[data-test="workers-list-wrapper"]')).toBeTruthy();
+  });
+  it("computed propery get data from getters", () => {
+    const wrapper = factory(WorkersList, {});
+  });
+
   it("commits a status mutation when component is mounted", async () => {
     const wrapper = factory(WorkersList, {});
-    //await wrapper.find(".commit").emitted();
     expect(mutations.setStatus).toHaveBeenCalledWith({}, 1);
   });
+
   it("dispatches and action when component is mounted", async () => {
     const wrapper = factory(WorkersList, {});
     expect(store.dispatch).toHaveBeenCalledWith(
       `workers/${WorkersActions.GET_WORKERS_DATA}`
     );
   });
+
   it("commits a status mutation when component is mounted", async () => {
     const wrapper = factory(WorkersList, {});
-    //await wrapper.find(".commit").emitted();
     expect(mutations.setStatus).toHaveBeenCalledWith({}, 0);
   });
 });

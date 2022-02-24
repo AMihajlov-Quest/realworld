@@ -4,12 +4,14 @@
     class="elevation-3"
     height="660"
     item-height="64"
+    data-test="workers-list-wrapper"
   >
     <template v-slot:default="{ item }">
       <v-list-item
         :key="item.id"
         @click="onWorkerClick(item.id)"
         :class="item.id == selectedWorker ? 'is-selected' : ''"
+        data-test="worker"
       >
         <v-list-item-content class="v-list-item">
           <v-list-item-title>{{ item.name }}</v-list-item-title>
